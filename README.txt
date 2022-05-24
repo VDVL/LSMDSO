@@ -1,0 +1,4 @@
+ADAPTATION OF CODE STM32 
+FROM: 	Librairy: X-CUBE-MEMS1-main (STM32), Example: DynamicInclinometer (X-NUCLEO-IKS01A3)
+TO  : 	STM32L476RG
+
