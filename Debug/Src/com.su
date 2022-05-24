@@ -1,0 +1,5 @@
+../Src/com.c:49:5:UART_ReceivedMSG	48	static
+../Src/com.c:139:6:UART_SendMsg	24	static
+../Src/com.c:163:6:UART_StartReceiveMsg	8	static
+../Src/com.c:182:17:Get_DMA_Flag_Status	16	static
+../Src/com.c:192:17:Get_DMA_Counter	16	static
