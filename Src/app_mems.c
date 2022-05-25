@@ -200,7 +200,6 @@ static void MX_DynamicInclinometer_Process(void)
 
 
 
-
   if (SensorReadRequest == 1U)
   {
     SensorReadRequest = 0;
@@ -618,6 +617,78 @@ static uint32_t DWT_Stop(void)
   system_core_clock_mhz = SystemCoreClock / 1000000U;
   return cycles_count / system_core_clock_mhz;
 }
+
+
+
+
+
+//PERSONNALS FUNCTIONS
+void get_inclination(void)
+{
+	#define buf_size 78
+	uint8_t buf_UART_TX[buf_size];
+	MDI_input_t      data_in;
+	MDI_output_t     data_out;
+	uint8_t checksum=0;
+
+	//get axes acc + gyro-------------------------------------------------------------
+	BSP_SENSOR_GYR_GetAxes(&AccValue);
+	BSP_SENSOR_GYR_GetAxes(&GyrValue);
+	//Serialize Raw datas----------------------------------------
+	buf_UART_TX[0] = (int32_t)36;//start carac: 36(ascii)='$'
+	//Raw acc datas
+	Serialize_s32(&buf_UART_TX[1],  (int32_t)AccValue.x, 4);
+	Serialize_s32(&buf_UART_TX[5],  (int32_t)AccValue.y, 4);
+	Serialize_s32(&buf_UART_TX[9],  (int32_t)AccValue.z, 4);
+	//Raw gyro datas
+	Serialize_s32(&buf_UART_TX[13], (int32_t)GyrValue.x, 4);
+	Serialize_s32(&buf_UART_TX[17], (int32_t)GyrValue.y, 4);
+	Serialize_s32(&buf_UART_TX[21], (int32_t)GyrValue.z, 4);
+
+	//Convertion-------------------------------------------
+	/* Convert acceleration from [mg] to [g] */
+	data_in.Acc[0] = (float)AccValue.x * FROM_MG_TO_G;
+	data_in.Acc[1] = (float)AccValue.y * FROM_MG_TO_G;
+	data_in.Acc[2] = (float)AccValue.z * FROM_MG_TO_G;
+	/* Convert angular velocity from [mdps] to [dps] */
+	data_in.Gyro[0] = (float)GyrValue.x * FROM_MDPS_TO_DPS;
+	data_in.Gyro[1] = (float)GyrValue.y * FROM_MDPS_TO_DPS;
+	data_in.Gyro[2] = (float)GyrValue.z * FROM_MDPS_TO_DPS;
+
+	//TIME
+	data_in.Timestamp = Timestamp;
+	Timestamp += ALGO_PERIOD;
+
+	//Compute inclination infos----------------------------
+	MotionDI_update(&data_out, &data_in);
+
+	//Serialize inclination datas
+	(void)memcpy(&buf_UART_TX[25], (void *)data_out.quaternion, 4U * sizeof(float));
+	(void)memcpy(&buf_UART_TX[41], (void *)data_out.rotation, 3U * sizeof(float));
+	(void)memcpy(&buf_UART_TX[53], (void *)data_out.gravity, 3U * sizeof(float));
+	(void)memcpy(&buf_UART_TX[65], (void *)data_out.linear_acceleration, 3U * sizeof(float));
+
+	//Cheksum computation
+	for(unsigned int i=1; i<buf_size-1; i++){
+		checksum ^= buf_UART_TX[i];
+	}
+	buf_UART_TX[77] = checksum;
+
+	//Transmit via UART
+	HAL_UART_Transmit(&huart2, (uint8_t *)buf_UART_TX, 78, 5000);
+
+	HAL_Delay(50);
+}
+
+
+
+
+
+
+
+
+
+
 
 #ifdef __cplusplus
 }
