@@ -1,3 +1,6 @@
+
+ADAPTATION CODE
+
 /**
   @page DynamicInclinometer application based on sensor expansion board X-NUCLEO-IKS01A3 and STM32 Nucleo Boards
 
