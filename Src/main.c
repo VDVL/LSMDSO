@@ -96,7 +96,12 @@ int main(void) {
 	MX_CRC_Init();
 	MX_RTC_Init();
 	MX_MEMS_Init();
+
 	/* USER CODE BEGIN 2 */
+
+
+	HAL_TIM_Base_Start_IT(&htim3);
+
 
 	/* USER CODE END 2 */
 
@@ -107,6 +112,7 @@ int main(void) {
 
 		//MX_MEMS_Process();  //example
 		get_inclination();
+
 
 		/* USER CODE BEGIN 3 */
 	}
