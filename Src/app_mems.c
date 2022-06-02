@@ -93,6 +93,10 @@ static void DWT_Init(void);
 static void DWT_Start(void);
 static uint32_t DWT_Stop(void);
 
+//User code---------------------------------------------------------------------
+void get_inclination(MDI_output_t *datas_DI);
+
+
 void MX_MEMS_Init(void)
 {
   /* USER CODE BEGIN SV */
@@ -619,19 +623,18 @@ static uint32_t DWT_Stop(void)
 
 
 //PERSONNALS FUNCTIONS
-void get_inclination(void)
+void get_inclination(MDI_output_t *datas_DI)
 {
-	#define buf_size 78
-	uint8_t buf_UART_TX[buf_size];
-	uint32_t         elapsed_time_us = 0U;
-	uint8_t checksum=0;
-	MDI_cal_type_t   acc_cal_mode;
-	MDI_cal_type_t   gyro_cal_mode;
-	MDI_cal_output_t acc_cal;
-	MDI_cal_output_t gyro_cal;
+	#define 			buf_size 78
+	uint8_t 			buf_UART_TX[buf_size];
+	uint32_t			elapsed_time_us = 0U;
+	uint8_t 			checksum=0;
+	MDI_cal_type_t   	acc_cal_mode;
+	MDI_cal_type_t   	gyro_cal_mode;
+	MDI_cal_output_t 	acc_cal;
+	MDI_cal_output_t 	gyro_cal;
 
 	UseOfflineData = 0U;
-
 	DataLoggerActive = 1;
 
 
@@ -639,12 +642,12 @@ void get_inclination(void)
 	  {
 
 		SensorReadRequest = 0;
-		//get axes acc + gyro-------------------------------------------------------------
+		//get axes accelerometer + gyro-------------------------------------------------------------
 		BSP_SENSOR_ACC_GetAxes(&AccValue);
 		BSP_SENSOR_GYR_GetAxes(&GyrValue);
 		//Serialize Raw datas----------------------------------------
-		buf_UART_TX[0] = (int32_t)36;//start carac: 36(ascii)='$'
-		//Raw acc datas
+		buf_UART_TX[0] = 36;//start carac: 36(ascii)='$'
+		//Raw accelerometer datas
 		Serialize_s32(&buf_UART_TX[1],  (int32_t)AccValue.x, 4);
 		Serialize_s32(&buf_UART_TX[5],  (int32_t)AccValue.y, 4);
 		Serialize_s32(&buf_UART_TX[9],  (int32_t)AccValue.z, 4);
@@ -671,8 +674,6 @@ void get_inclination(void)
 		DWT_Start();
 		MotionDI_manager_run(&data_in, &data_out);
 		elapsed_time_us = DWT_Stop();
-		//MotionDI_update(&data_out, &data_in);
-
 
 		//Serialize inclination datas
 		(void)memcpy(&buf_UART_TX[25], (void *)data_out.quaternion, 4U * sizeof(float));
@@ -684,9 +685,7 @@ void get_inclination(void)
 		for(unsigned int i=1; i<buf_size-1; i++){
 			checksum ^= buf_UART_TX[i];
 		}
-		buf_UART_TX[77] = checksum;
-		//buf_UART_TX[78] = (int32_t)37; // "%" en ascii = 37
-
+		buf_UART_TX[77] = (uint8_t)checksum;
 
 
 		/* Check calibration mode --------------------------------------*/
@@ -713,18 +712,30 @@ void get_inclination(void)
 		gyro_cal.Bias[1] *= FROM_DPS_TO_MDPS;
 		gyro_cal.Bias[2] *= FROM_DPS_TO_MDPS;
 
-		//Transmit via UART
-		HAL_UART_Transmit(&huart2, (uint8_t *)buf_UART_TX, 78, 5000);
+		//Transmit by UART
+		HAL_UART_Transmit(&huart2, (uint8_t *)buf_UART_TX, buf_size, 5000);
 
-		//Transmit via UART
-		//HAL_UART_Transmit(&huart2, (uint8_t *)buf_UART_TX, 78, 5000);
-		//uint8_t buf_test[14];
-		//buf_test[0] = 36;//start carac: 36(ascii)='$'
-		//(void)memcpy(&buf_test[1], (void *)data_out.rotation, 3U * sizeof(float));
-		//buf_test[13] = 111;//
+		//Transmit datas to main
+		*datas_DI = data_out;
+		/*
+		datas_DI->rotation[0] = data_out.rotation[0];
+		datas_DI->rotation[1] = data_out.rotation[1];
+		datas_DI->rotation[2] = data_out.rotation[2];
 
-		//HAL_UART_Transmit(&huart2, (uint8_t *)buf_test, 14, 5000);
-		}
+		datas_DI->gravity[0] = data_out.gravity[0];
+		datas_DI->gravity[1] = data_out.gravity[1];
+		datas_DI->gravity[2] = data_out.gravity[2];
+
+		datas_DI->quaternion[0] = data_out.quaternion[0];
+		datas_DI->quaternion[1] = data_out.quaternion[1];
+		datas_DI->quaternion[2] = data_out.quaternion[2];
+		datas_DI->quaternion[3] = data_out.quaternion[3];
+
+		datas_DI->linear_acceleration[0] = data_out.linear_acceleration[0];
+		datas_DI->linear_acceleration[1] = data_out.linear_acceleration[1];
+		datas_DI->linear_acceleration[2] = data_out.linear_acceleration[2];*/
+	}
+
 }
 
 

@@ -34,7 +34,34 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
  ../../../../../../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart.h \
  ../../../../../../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal_uart_ex.h \
  ../Inc/stm32l4xx_nucleo.h ../Inc/stm32l4xx_nucleo_conf.h \
- ../Inc/stm32l4xx_nucleo_errno.h ../Inc/main.h ../Inc/app_mems.h
+ ../Inc/stm32l4xx_nucleo_errno.h ../Inc/main.h ../Inc/app_mems.h \
+ ../Inc/com.h ../Inc/serial_protocol.h ../Inc/bsp_ip_conf.h \
+ ../Inc/iks01a3_mems_control.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors.h \
+ ../Inc/iks01a3_conf.h ../Inc/stm32l4xx_nucleo_bus.h \
+ ../../../../../../Drivers/BSP/Components/Common/motion_sensor.h \
+ ../../../../../../Drivers/BSP/Components/lsm6dso/lsm6dso.h \
+ ../../../../../../Drivers/BSP/Components/lsm6dso/lsm6dso_reg.h \
+ ../../../../../../Drivers/BSP/Components/lis2dw12/lis2dw12.h \
+ ../../../../../../Drivers/BSP/Components/lis2dw12/lis2dw12_reg.h \
+ ../../../../../../Drivers/BSP/Components/lis2mdl/lis2mdl.h \
+ ../../../../../../Drivers/BSP/Components/lis2mdl/lis2mdl_reg.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors_ex.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors.h \
+ ../../../../../../Drivers/BSP/Components/Common/env_sensor.h \
+ ../../../../../../Drivers/BSP/Components/hts221/hts221.h \
+ ../../../../../../Drivers/BSP/Components/hts221/hts221_reg.h \
+ ../../../../../../Drivers/BSP/Components/lps22hh/lps22hh.h \
+ ../../../../../../Drivers/BSP/Components/lps22hh/lps22hh_reg.h \
+ ../../../../../../Drivers/BSP/Components/stts751/stts751.h \
+ ../../../../../../Drivers/BSP/Components/stts751/stts751_reg.h \
+ ../Inc/sensor_unicleo_id.h ../Inc/iks01a3_mems_control_ex.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors_ex.h \
+ ../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors.h \
+ ../Inc/demo_serial.h ../Inc/serial_cmd.h ../Inc/motion_di_manager.h \
+ ../../../../../../Middlewares/ST/STM32_MotionDI_Library/Inc/motion_di.h \
+ ../Inc/bsp_ip_conf.h ../Inc/fw_version.h ../Inc/motion_di_manager.h
 ../Inc/main.h:
 ../../../../../../Drivers/STM32L4xx_HAL_Driver/Inc/stm32l4xx_hal.h:
 ../Inc/stm32l4xx_hal_conf.h:
@@ -75,3 +102,38 @@ Src/main.o: ../Src/main.c ../Inc/main.h \
 ../Inc/stm32l4xx_nucleo_errno.h:
 ../Inc/main.h:
 ../Inc/app_mems.h:
+../Inc/com.h:
+../Inc/serial_protocol.h:
+../Inc/bsp_ip_conf.h:
+../Inc/iks01a3_mems_control.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors.h:
+../Inc/iks01a3_conf.h:
+../Inc/stm32l4xx_nucleo_bus.h:
+../../../../../../Drivers/BSP/Components/Common/motion_sensor.h:
+../../../../../../Drivers/BSP/Components/lsm6dso/lsm6dso.h:
+../../../../../../Drivers/BSP/Components/lsm6dso/lsm6dso_reg.h:
+../../../../../../Drivers/BSP/Components/lis2dw12/lis2dw12.h:
+../../../../../../Drivers/BSP/Components/lis2dw12/lis2dw12_reg.h:
+../../../../../../Drivers/BSP/Components/lis2mdl/lis2mdl.h:
+../../../../../../Drivers/BSP/Components/lis2mdl/lis2mdl_reg.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors_ex.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_motion_sensors.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors.h:
+../../../../../../Drivers/BSP/Components/Common/env_sensor.h:
+../../../../../../Drivers/BSP/Components/hts221/hts221.h:
+../../../../../../Drivers/BSP/Components/hts221/hts221_reg.h:
+../../../../../../Drivers/BSP/Components/lps22hh/lps22hh.h:
+../../../../../../Drivers/BSP/Components/lps22hh/lps22hh_reg.h:
+../../../../../../Drivers/BSP/Components/stts751/stts751.h:
+../../../../../../Drivers/BSP/Components/stts751/stts751_reg.h:
+../Inc/sensor_unicleo_id.h:
+../Inc/iks01a3_mems_control_ex.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors_ex.h:
+../../../../../../Drivers/BSP/IKS01A3/iks01a3_env_sensors.h:
+../Inc/demo_serial.h:
+../Inc/serial_cmd.h:
+../Inc/motion_di_manager.h:
+../../../../../../Middlewares/ST/STM32_MotionDI_Library/Inc/motion_di.h:
+../Inc/bsp_ip_conf.h:
+../Inc/fw_version.h:
+../Inc/motion_di_manager.h:

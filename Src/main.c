@@ -22,7 +22,11 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "com.h"
+#include "demo_serial.h"
+#include "bsp_ip_conf.h"
+#include "fw_version.h"
+#include "motion_di_manager.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -36,7 +40,6 @@
 
 /* Private macro -------------------------------------------------------------*/
 /* USER CODE BEGIN PM */
-
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
@@ -71,6 +74,8 @@ static void MX_RTC_Init(void);
  */
 int main(void) {
 	/* USER CODE BEGIN 1 */
+
+	MDI_output_t datas_DI;
 
 	/* USER CODE END 1 */
 
@@ -111,7 +116,8 @@ int main(void) {
 		/* USER CODE END WHILE */
 
 		//MX_MEMS_Process();  //example
-		get_inclination();
+
+		get_inclination(&datas_DI);
 
 
 		/* USER CODE BEGIN 3 */
